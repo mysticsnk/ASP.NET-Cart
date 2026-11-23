@@ -1,0 +1,9 @@
+POST http://localhost:5003/api/cart/add/1 HTTP/1.1
+
+###
+
+GET http://localhost:5003/api/cart HTTP/1.1
+
+###
+
+DELETE http://localhost:5003/api/cart/clear HTTP/1.1

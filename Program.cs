@@ -69,6 +69,12 @@ app.MapGet("/identify", (HttpContext context) =>
     return Results.BadRequest("Invalid UserId cookie format!");
 });
 
+app.MapGet("/test-session", (HttpContext context) =>
+{
+    context.Session.SetString("Test", "Hello");
+    return Results.Ok("Session initialized!");
+});
+
 var api = app.MapGroup("/api");
 api.AddCartEndpoints();
 

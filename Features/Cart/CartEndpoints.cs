@@ -10,7 +10,7 @@ public static class CartEndpoints
         cart.MapGet("/", GetAll);
         cart.MapPost("/add/{productId}", Add);
         cart.MapGet("/{productId}", Get);
-        
+        cart.MapDelete("/{productId}", Delete);
         cart.MapDelete("/clear", Clear);
         return cart;
     }
@@ -56,6 +56,18 @@ public static class CartEndpoints
         return Results.Ok(items);
     }
 
+    public static IResult Delete(HttpContext context, int productId)
+    {
+        ILogger logger = AppState.App.Services.GetRequiredService<ILogger>();
+        CartService cart = AppState.App.Services.GetRequiredService<CartService>();
+        
+        List<CartItem> items = LoadSession(context) ?? new List<CartItem>();
+        cart.RemoveById(productId, items);
+        logger.Log($"Successfully removed an item by id: {productId}");
+        SaveSession(context, items);
+        return Results.Ok();
+    }
+    
     public static IResult Clear(HttpContext context)
     {
         ILogger logger = AppState.App.Services.GetService<ILogger>()!;
